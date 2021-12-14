@@ -1,7 +1,6 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { DisplayMessage, GenericValidator, ValidationMessages } from 'src/app/Utils/generic-form-validation';
-import { NewLineKind } from 'typescript';
 import { Usuario } from '../Models/usuario';
 import { ContaService } from '../Services/conta.service';
 
@@ -34,13 +33,13 @@ export class CadastroComponent implements OnInit, AfterViewInit {
                     equalTo: 'As senhas não conferem'
                   }
                 };
-  } 
+  }
 
   ngOnInit(): void {
     this.cadastroForm = this.fb.group({
-       email: [''],
-       password: [''],
-       confirmPassword: ['']
+      email: [''],
+      password: [''],
+      confirmPassword: ['']
     })
   }
 

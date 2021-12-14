@@ -18,6 +18,8 @@ const contaRouteConfig: Routes = [
    imports: [
        RouterModule.forChild(contaRouteConfig)
    ],
-   exports: []
+   exports: [
+    RouterModule
+   ]
 })
 export class ContaRoutingModule { }

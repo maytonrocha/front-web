@@ -7,7 +7,7 @@ import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ContaAppComponent } from './conta.app.component';
-
+import { ContaService } from './Services/conta.service';
 
 
 @NgModule({
@@ -23,6 +23,9 @@ import { ContaAppComponent } from './conta.app.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule
+  ],
+  providers:[
+    ContaService
   ]
 })
 export class ContaModule { }
