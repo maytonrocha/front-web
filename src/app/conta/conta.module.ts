@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ContaAppComponent } from './conta.app.component';
 import { ContaService } from './Services/conta.service';
 import { NarikCustomValidatorsModule } from '@narik/custom-validators';
+import { ContaGuard } from './Services/conta.guard';
 
 
 
@@ -28,7 +29,8 @@ import { NarikCustomValidatorsModule } from '@narik/custom-validators';
     NarikCustomValidatorsModule
   ],
   providers:[
-    ContaService
+    ContaService,
+    ContaGuard
   ]
 })
 export class ContaModule { }

@@ -5,6 +5,9 @@ import { Usuario } from '../Models/usuario';
 import { ContaService } from '../Services/conta.service';
 import { CustomValidators } from '@narik/custom-validators';
 import { fromEvent, merge, Observable } from 'rxjs';
+import { Router } from '@angular/router';
+
+import { Toast, ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-cadastro',
@@ -14,7 +17,8 @@ export class CadastroComponent implements OnInit, AfterViewInit {
 
   @ViewChildren(FormControlName, { read: ElementRef }) formImputElement: ElementRef[];
 
-  erros: any = [];
+  mudancasNaoSalvas:boolean;
+  errors: any = [];
   validationMessages: ValidationMessages;
   genericValidation: GenericValidator;
   displayMessage: DisplayMessage = {};
@@ -22,7 +26,9 @@ export class CadastroComponent implements OnInit, AfterViewInit {
   usuario: Usuario;
 
   constructor(private fb:FormBuilder,
-              private contaService:ContaService) {
+              private contaService:ContaService,
+              private route: Router,
+              private toastr: ToastrService) {
 
                 this.validationMessages = {
                   email: {
@@ -61,6 +67,7 @@ export class CadastroComponent implements OnInit, AfterViewInit {
 
         merge(...controlBlurs).subscribe(()=> {
               this.displayMessage = this.genericValidation.processarMensagens(this.cadastroForm);
+              this.mudancasNaoSalvas = true;
         })
   }
 
@@ -68,8 +75,36 @@ export class CadastroComponent implements OnInit, AfterViewInit {
     if (this.cadastroForm.dirty && this.cadastroForm.valid){
       this.usuario = Object.assign({}, this.usuario, this.cadastroForm.value)
 
-      this.contaService.registrarUsuario(this.usuario);
+      this.contaService.registrarUsuario(this.usuario)
+         .subscribe(
+           sucesso => {this.processarSucesso(sucesso)},
+           falha => {this.processarFalha(falha)}
+         );         
     }
+    this.mudancasNaoSalvas = false;  
+  }
+
+  processarSucesso(response: any){
+     this.cadastroForm.reset();
+     this.errors=[];
+
+     this.contaService.LocalStorage.salvarDadosLocaisUsuario(response);
+
+     let toastr = this.toastr.success("Registro realizado com sucesso!", "Seja bem-vindo");
+
+     if (toastr){
+       toastr.onHidden.subscribe(()=>{
+        this.route.navigate(['/home']);
+       });
+     }
+
+
+     //this.route.navigate(['/home']);
+  }
+
+  processarFalha(response: any){
+     this.errors = response.error.errors; 
+     this.toastr.error("Ocorreu um erro!", "Opa :(")    
   }
 
 }
