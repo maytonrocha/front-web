@@ -1,8 +1,10 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChildren } from '@angular/core';
+import { FormBuilder, FormControl, FormControlName, FormGroup, Validators } from '@angular/forms';
 import { DisplayMessage, GenericValidator, ValidationMessages } from 'src/app/Utils/generic-form-validation';
 import { Usuario } from '../Models/usuario';
 import { ContaService } from '../Services/conta.service';
+import { CustomValidators } from '@narik/custom-validators';
+import { fromEvent, merge, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-cadastro',
@@ -10,6 +12,9 @@ import { ContaService } from '../Services/conta.service';
 })
 export class CadastroComponent implements OnInit, AfterViewInit {
 
+  @ViewChildren(FormControlName, { read: ElementRef }) formImputElement: ElementRef[];
+
+  erros: any = [];
   validationMessages: ValidationMessages;
   genericValidation: GenericValidator;
   displayMessage: DisplayMessage = {};
@@ -17,7 +22,8 @@ export class CadastroComponent implements OnInit, AfterViewInit {
   usuario: Usuario;
 
   constructor(private fb:FormBuilder,
-              private contaService:ContaService) { 
+              private contaService:ContaService) {
+
                 this.validationMessages = {
                   email: {
                     required: 'Informe o e-mail',
@@ -33,23 +39,35 @@ export class CadastroComponent implements OnInit, AfterViewInit {
                     equalTo: 'As senhas não conferem'
                   }
                 };
+
+                this.genericValidation = new GenericValidator(this.validationMessages);
   }
 
   ngOnInit(): void {
+
+    let senha = new FormControl('', [Validators.required, CustomValidators.rangeLength([6, 15])]);
+    let senhaConfirm = new FormControl('', [Validators.required, CustomValidators.rangeLength([6, 15]), CustomValidators.equalTo(senha)]);
+
     this.cadastroForm = this.fb.group({
-      email: [''],
-      password: [''],
-      confirmPassword: ['']
+      email: ['', [Validators.required, Validators.email]],
+      password: senha,
+      confirmPassword: senhaConfirm
     })
   }
 
   ngAfterViewInit(): void {
-    throw new Error('Method not implemented.');
+        let controlBlurs: Observable<any>[] = this.formImputElement
+        .map((formControl: ElementRef) => fromEvent(formControl.nativeElement, 'blur'));
+
+        merge(...controlBlurs).subscribe(()=> {
+              this.displayMessage = this.genericValidation.processarMensagens(this.cadastroForm);
+        })
   }
 
   adicionarConta(){
     if (this.cadastroForm.dirty && this.cadastroForm.valid){
       this.usuario = Object.assign({}, this.usuario, this.cadastroForm.value)
+
       this.contaService.registrarUsuario(this.usuario);
     }
   }
