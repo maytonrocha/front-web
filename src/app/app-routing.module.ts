@@ -6,12 +6,16 @@ import { NotFoundComponent } from './navegacao/not-found/not-found.component';
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full'},
   { path: 'home', component: HomeComponent },
-  { path: 'conta', 
+  { path: 'conta',
     loadChildren: () => import('./conta/conta.module')
-    .then(m => m.ContaModule) 
+    .then(m => m.ContaModule)
+  },
+  { path: 'fornecedor',
+    loadChildren: () => import('./fornecedor/fornecedor.module')
+    .then(m => m.FornecedorModule)
   },
   { path: 'nao-encontrado', component: NotFoundComponent },
-  { path: '**', component: NotFoundComponent },  
+  { path: '**', component: NotFoundComponent },
 ];
 
 @NgModule({

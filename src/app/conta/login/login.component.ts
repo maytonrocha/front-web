@@ -3,10 +3,10 @@ import { FormBuilder, FormControl, FormControlName, FormGroup, Validators } from
 import { DisplayMessage, GenericValidator, ValidationMessages } from 'src/app/Utils/generic-form-validation';
 import { Usuario } from '../Models/usuario';
 import { ContaService } from '../Services/conta.service';
-import { CustomValidators } from '@narik/custom-validators';
 import { fromEvent, merge, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { CustomValidators } from '@narik/custom-validators';
 
 @Component({
   selector: 'app-login',
@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
                   password: {
                     required: 'Informe a senha',
                     rangeLength: 'A senha deve possuir entre 6 e 15 caracteres'
-                  }                  
+                  }
                 };
 
                 this.genericValidation = new GenericValidator(this.validationMessages);
@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', Validators.required, CustomValidators.rangeLength([6, 15])]
+      password: ['', [Validators.required, CustomValidators.rangeLength([6, 15])]]
     })
   }
 
@@ -67,8 +67,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
          .subscribe(
            sucesso => {this.processarSucesso(sucesso)},
            falha => {this.processarFalha(falha)}
-         );         
-    } 
+         );
+    }
   }
 
   processarSucesso(response: any){
@@ -90,8 +90,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
 
   processarFalha(response: any){
-     this.errors = response.error.errors; 
-     this.toastr.error("Ocorreu um erro!", "Opa :(")    
+     this.errors = response.error.errors;
+     this.toastr.error("Ocorreu um erro!", "Opa :(")
   }
 
 }

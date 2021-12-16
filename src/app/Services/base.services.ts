@@ -4,7 +4,7 @@ import { environment } from "src/environments/environment";
 import { LocalStorageUtils } from "../Utils/LocalStorageUtils";
 
 export abstract class BaseService {
-    
+
     public LocalStorage = new LocalStorageUtils();
     protected UrlServiceV1: string = environment.ApiUrlv1;
 
@@ -25,8 +25,8 @@ export abstract class BaseService {
 
         if (response.statusText === 'Unknown Error'){
             customError.push('Ocorreu um erro desconhecido');
-            response.erro.Error = customError;
-            
+            response.error.errors = customError;
+
         }
 
         console.error(response);
