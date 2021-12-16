@@ -1,4 +1,4 @@
-export interface Endereco{
+export class Endereco{
   id:string;
   logradouro:string;
   numero:string;
@@ -8,4 +8,13 @@ export interface Endereco{
   cidade:string;
   estado:string;
   fornecedorId:string;
+}
+
+export interface CepConsulta {
+  cep: string;
+  logradouro: string;
+  complemento: string;
+  bairro: string;
+  localidade: string;
+  uf: string;
 }

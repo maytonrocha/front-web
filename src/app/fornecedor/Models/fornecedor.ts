@@ -1,6 +1,6 @@
 import { Endereco } from "./endereco";
 
-export interface Fornecedor{
+export class Fornecedor{
   id:string;
   nome:string;
   documento:string;

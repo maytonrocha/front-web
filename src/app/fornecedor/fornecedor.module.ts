@@ -10,6 +10,10 @@ import { FornecedorRoutingModule } from './fornecedor.route';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { FornecedorAppComponent } from './fornecedor.app.component';
+import { NgBrazil } from 'ng-brazil';
+import { TextMaskModule } from 'angular2-text-mask';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { NgxMaskModule, IConfig } from 'ngx-mask'
 
 @NgModule({
   declarations: [
@@ -25,7 +29,11 @@ import { FornecedorAppComponent } from './fornecedor.app.component';
     FornecedorRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgBrazil,
+    TextMaskModule,
+    NgxSpinnerModule,
+    NgxMaskModule.forRoot()
   ],
   providers: [
     FornecedorService
