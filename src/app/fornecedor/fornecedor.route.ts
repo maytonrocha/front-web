@@ -7,6 +7,7 @@ import { ExcluirComponent } from "./excluir/excluir.component";
 import { FornecedorAppComponent } from "./fornecedor.app.component";
 import { ListaComponent } from "./lista/lista.component";
 import { NovoComponent } from "./novo/novo.component";
+import { FornecedorResolve } from "./Services/fornecedor.resolve";
 
 const FornecedorRouterConfig: Routes = [
    {
@@ -14,7 +15,11 @@ const FornecedorRouterConfig: Routes = [
      children: [
        { path: 'listar-todos', component: ListaComponent },
        { path: 'excluir/:id', component: ExcluirComponent },
-       { path: 'editar/:id', component: EditarComponent },
+       { path: 'editar/:id', component: EditarComponent,
+       resolve: {
+            fornecedor: FornecedorResolve
+          } 
+       },
        { path: 'adicionar-novo', component: NovoComponent },
        { path: 'detalhes/:id', component: DetalhesComponent }
      ]

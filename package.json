@@ -22,7 +22,6 @@
     "@narik/custom-validators": "^7.0.1",
     "@ng-bootstrap/ng-bootstrap": "^10.0.0",
     "angular2-text-mask": "^9.0.0",
-    "js-brasil": "^2.5.1",
     "ng-brazil": "^2.4.5",
     "ngx-mask": "^13.0.1",
     "ngx-spinner": "^13.0.0",

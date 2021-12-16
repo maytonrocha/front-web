@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ElementRef, OnInit, ViewChildren } from '@ang
 import { AbstractControl, FormBuilder, FormControlName, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgBrazilValidators } from 'ng-brazil';
+//import { utilsBr } from 'js-brasil';
 import { ToastrService } from 'ngx-toastr';
 import { fromEvent, merge, Observable } from 'rxjs';
 import { DisplayMessage, GenericValidator, ValidationMessages } from 'src/app/Utils/generic-form-validation';
@@ -54,7 +55,8 @@ export class NovoComponent implements OnInit, AfterViewInit {
         required: 'Informe o bairro'
       },
       cep:{
-        required: 'Informe o CEP'
+        required: 'Informe o CEP',
+        cep: 'CEP em formato invalido'
       },
       cidade:{
         required: 'Informe o cidade'
@@ -84,10 +86,12 @@ export class NovoComponent implements OnInit, AfterViewInit {
         estado: ['', [Validators.required]]
       })
     })
+
     this.fornecedorForm.patchValue({ tipoFornecedor: '1', ativo: true });
   }
 
   ngAfterViewInit(): void{
+    this.configurarElementosValidacao();
     this.tipoFornecedorForm().valueChanges
       .subscribe(()=>{
         this.trocarValidacaoDocumento();
@@ -163,6 +167,7 @@ export class NovoComponent implements OnInit, AfterViewInit {
 
       this.fornecedor.endereco.cep = StringUtils.somenteNumeros(this.fornecedor.endereco.cep);
       this.fornecedor.documento = StringUtils.somenteNumeros(this.fornecedor.documento);
+      this.fornecedor.tipoFornecedor = parseInt(this.fornecedor.tipoFornecedor.toString());
 
       this.fornecedorService.novoFornecedor(this.fornecedor)
         .subscribe(
@@ -181,7 +186,7 @@ export class NovoComponent implements OnInit, AfterViewInit {
     let toast = this.toastr.success('Fornecedor cadastrado com sucesso!', 'Sucesso!');
     if (toast) {
       toast.onHidden.subscribe(() => {
-        this.router.navigate(['/fornecedores/listar-todos']);
+        this.router.navigate(['/fornecedor/listar-todos']);
       });
     }
   }
@@ -192,7 +197,7 @@ export class NovoComponent implements OnInit, AfterViewInit {
   }
 
   getCpfCnpjMask(): string{
-    return this.tipoFornecedorForm().value == '1' ? '000.000.000-009' : '00.000.000/0000-00';
+    return this.tipoFornecedorForm().value == '1' ? '000.000.000-00' : '00.000.000/0000-00';
  }
 
 }

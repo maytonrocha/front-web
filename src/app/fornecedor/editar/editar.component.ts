@@ -1,7 +1,8 @@
-import { Component, ElementRef, OnInit, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChildren } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControlName, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+
 import { NgBrazilValidators } from 'ng-brazil';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
@@ -16,7 +17,7 @@ import { FornecedorService } from '../Services/fornecedor.service';
   selector: 'app-editar',
   templateUrl: './editar.component.html'
 })
-export class EditarComponent implements OnInit {
+export class EditarComponent implements OnInit, AfterViewInit {
 
   @ViewChildren(FormControlName, { read: ElementRef }) formInputElements: ElementRef[];
 
@@ -76,14 +77,13 @@ export class EditarComponent implements OnInit {
                   }
                 };
 
-                this.genericValidator = new GenericValidator(this.validationMessages);
-
-                this.fornecedor = this.route.snapshot.data['fornecedor'];
+                this.genericValidator = new GenericValidator(this.validationMessages);                
+                this.fornecedor = this.route.snapshot.data['fornecedor'];                
                 this.tipoFornecedor = this.fornecedor.tipoFornecedor;
               }
 
   ngOnInit(): void {
-    this.spinner.show();
+    //this.spinner.show();
 
     this.fornecedorForm = this.fb.group({
       id: '',
@@ -142,6 +142,7 @@ export class EditarComponent implements OnInit {
   }
 
   ngAfterViewInit(){
+    this.configurarElementosValidacao();
     this.tipoFornecedorForm().valueChanges
       .subscribe(()=>{
         this.trocarValidacaoDocumento();

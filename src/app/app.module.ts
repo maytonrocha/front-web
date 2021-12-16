@@ -23,7 +23,8 @@ import { NgxMaskModule, IConfig } from 'ngx-mask'
     ToastrModule.forRoot(),
     NgxMaskModule.forRoot()
   ],
-  providers: [],
+  providers: [
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

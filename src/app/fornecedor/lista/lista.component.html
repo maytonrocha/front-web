@@ -26,13 +26,13 @@
               <input [checked]="fornecedor.ativo" class="check-box" disabled="disabled" type="checkbox">
           </td>
           <td class="text-right">
-              <a class="btn btn-info" [routerLink]="['/fornecedores/detalhes',fornecedor.id]">
+              <a class="btn btn-info" [routerLink]="['/fornecedor/detalhes',fornecedor.id]">
                   <span class="fa fa-search"></span>
               </a>&nbsp;
-              <a class="btn btn-warning" [routerLink]="['/fornecedores/editar',fornecedor.id]">
+              <a class="btn btn-warning" [routerLink]="['/fornecedor/editar',fornecedor.id]">
                   <span class="fa fa-pencil-alt"></span>
               </a>&nbsp;
-              <a class="btn btn-danger" [routerLink]="['/fornecedores/excluir',fornecedor.id]">
+              <a class="btn btn-danger" [routerLink]="['/fornecedor/excluir',fornecedor.id]">
                   <span class="fa fa-trash"></span>
               </a>
           </td>
