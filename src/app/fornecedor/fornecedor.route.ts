@@ -14,14 +14,21 @@ const FornecedorRouterConfig: Routes = [
      path: '', component: FornecedorAppComponent,
      children: [
        { path: 'listar-todos', component: ListaComponent },
-       { path: 'excluir/:id', component: ExcluirComponent },
+       { path: 'excluir/:id', component: ExcluirComponent,
+       resolve: {
+        fornecedor: FornecedorResolve
+      }
+      },
        { path: 'editar/:id', component: EditarComponent,
        resolve: {
             fornecedor: FornecedorResolve
-          } 
+          }
        },
        { path: 'adicionar-novo', component: NovoComponent },
-       { path: 'detalhes/:id', component: DetalhesComponent }
+       { path: 'detalhes/:id', component: DetalhesComponent,
+       resolve: {
+        fornecedor: FornecedorResolve
+      } }
      ]
    }
 ];

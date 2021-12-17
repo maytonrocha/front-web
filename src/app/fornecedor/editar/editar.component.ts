@@ -39,14 +39,14 @@ export class EditarComponent implements OnInit, AfterViewInit {
   tipoFornecedor: number;
 
   mudancasNaoSalvas: boolean;
-  
+
   constructor(private fb: FormBuilder,
               private fornecedorService:FornecedorService,
               private router: Router,
               private toastr: ToastrService,
               private route: ActivatedRoute,
               private modalService: NgbModal,
-              private spinner: NgxSpinnerService) { 
+              private spinner: NgxSpinnerService) {
                 this.validationMessages = {
                   nome: {
                     required: 'Informe o Nome',
@@ -77,13 +77,13 @@ export class EditarComponent implements OnInit, AfterViewInit {
                   }
                 };
 
-                this.genericValidator = new GenericValidator(this.validationMessages);                
-                this.fornecedor = this.route.snapshot.data['fornecedor'];                
+                this.genericValidator = new GenericValidator(this.validationMessages);
+                this.fornecedor = this.route.snapshot.data['fornecedor'];
                 this.tipoFornecedor = this.fornecedor.tipoFornecedor;
               }
 
   ngOnInit(): void {
-    //this.spinner.show();
+    this.spinner.show();
 
     this.fornecedorForm = this.fb.group({
       id: '',
@@ -107,7 +107,7 @@ export class EditarComponent implements OnInit, AfterViewInit {
 
     this.preencherForm();
 
-    setTimeout(() => {      
+    setTimeout(() => {
       this.spinner.hide();
     }, 1000);
   }
@@ -214,6 +214,7 @@ export class EditarComponent implements OnInit, AfterViewInit {
 
       this.fornecedor = Object.assign({}, this.fornecedor, this.fornecedorForm.value);
       this.fornecedor.documento = StringUtils.somenteNumeros(this.fornecedor.documento);
+      this.fornecedor.tipoFornecedor = parseInt(this.fornecedor.tipoFornecedor.toString());
 
       this.fornecedorService.atualizarFornecedor(this.fornecedor)
         .subscribe(
@@ -229,7 +230,7 @@ export class EditarComponent implements OnInit, AfterViewInit {
     let toast = this.toastr.success('Fornecedor atualizado com sucesso!', 'Sucesso!');
     if (toast) {
       toast.onHidden.subscribe(() => {
-        this.router.navigate(['/fornecedores/listar-todos']);
+        this.router.navigate(['/fornecedor/listar-todos']);
       });
     }
   }
@@ -243,7 +244,7 @@ export class EditarComponent implements OnInit, AfterViewInit {
     if (this.enderecoForm.dirty && this.enderecoForm.valid) {
 
       this.endereco = Object.assign({}, this.endereco, this.enderecoForm.value);
-      
+
       this.endereco.cep = StringUtils.somenteNumeros(this.endereco.cep);
       this.endereco.fornecedorId = this.fornecedor.id;
 

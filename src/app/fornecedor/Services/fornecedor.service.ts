@@ -17,7 +17,10 @@ export class FornecedorService extends BaseService{
   }
 
   excluirFornecedor(id:string): Observable<Fornecedor>{
-     return new Observable<Fornecedor>();
+    return this.http.delete(this.UrlServiceV1 + "fornecedores/" + id, super.ObterAuthHeaderJson())
+    .pipe(
+      map(super.ExtractData),
+      catchError(super.serviceError))
   }
 
   atualizarFornecedor(fornecedor:Fornecedor): Observable<Fornecedor>{
@@ -46,7 +49,10 @@ consultarCep(cep: string): Observable<CepConsulta> {
 }
 
 atualizarEndereco(endereco:Endereco): Observable<Endereco>{
-  return new Observable<Endereco>();
+  return this.http.put(this.UrlServiceV1 + "fornecedores/endereco/" + endereco.id, endereco, super.ObterAuthHeaderJson())
+      .pipe(
+        map(super.ExtractData),
+        catchError(super.serviceError))
 }
 
 }
