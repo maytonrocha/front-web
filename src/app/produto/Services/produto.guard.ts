@@ -1,25 +1,24 @@
 import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot, CanActivate, CanDeactivate, Router, RouterStateSnapshot, UrlTree } from "@angular/router";
-import { Observable } from "rxjs";
 import { LocalStorageUtils } from "src/app/Utils/LocalStorageUtils";
 import { NovoComponent } from "../novo/novo.component";
 
 @Injectable()
-export class FornecedorGuard implements CanActivate, CanDeactivate<NovoComponent> {
-
+export class ProdutoGuard implements CanActivate, CanDeactivate<NovoComponent> { 
+    
     localStorageUtils = new LocalStorageUtils();
 
     constructor(private routerNav:Router){}
+
     canDeactivate(component: NovoComponent) {
         if (component.mudancasNaoSalvas){
-            return window.confirm("Tem certeza que deseja abandonar o preenchimento do formulário?")
+           return window.confirm("Tem certeza que deseja abandonar o preenchimento do formulário?");
         }
 
         return true;
     }
-
+    
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        
         if (!this.localStorageUtils.obterTokenUsuario()){
             this.routerNav.navigate(['/conta/login']);
         }
@@ -54,4 +53,6 @@ export class FornecedorGuard implements CanActivate, CanDeactivate<NovoComponent
     navegateToNegado(){
         this.routerNav.navigate(['/acesso-negado']);
     }
+
+
 }
