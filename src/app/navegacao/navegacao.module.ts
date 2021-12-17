@@ -7,6 +7,7 @@ import { HomeComponent } from "./home/home.component";
 import { MenuLoginComponent } from "./menu-login/menu-login.component";
 import { MenuComponent } from "./menu/menu.component";
 import { NotFoundComponent } from "./not-found/not-found.component";
+import { AcessoNegadoComponent } from './acesso-negado/acesso-negado.component';
 
 @NgModule({
   declarations:[
@@ -14,7 +15,8 @@ import { NotFoundComponent } from "./not-found/not-found.component";
     MenuLoginComponent,
     HomeComponent,
     FooterComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    AcessoNegadoComponent
   ],
   imports:[
     CommonModule,
@@ -26,7 +28,8 @@ import { NotFoundComponent } from "./not-found/not-found.component";
     MenuLoginComponent,
     HomeComponent,
     FooterComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    AcessoNegadoComponent
   ]
 })
 export class NavegacaoModule{}

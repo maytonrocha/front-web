@@ -9,6 +9,12 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavegacaoModule } from './navegacao/navegacao.module';
 import { NgxMaskModule, IConfig } from 'ngx-mask'
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { ErrorInterceptor } from './Services/error.handler.service';
+
+export const httpInterceptorProviders = [
+  { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true }
+];
 
 @NgModule({
   declarations: [
@@ -21,9 +27,11 @@ import { NgxMaskModule, IConfig } from 'ngx-mask'
     NgbModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
-    NgxMaskModule.forRoot()
+    NgxMaskModule.forRoot(),
+    HttpClientModule
   ],
   providers: [
+    httpInterceptorProviders
   ],
   bootstrap: [AppComponent]
 })

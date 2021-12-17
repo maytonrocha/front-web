@@ -7,6 +7,7 @@ import { ExcluirComponent } from "./excluir/excluir.component";
 import { FornecedorAppComponent } from "./fornecedor.app.component";
 import { ListaComponent } from "./lista/lista.component";
 import { NovoComponent } from "./novo/novo.component";
+import { FornecedorGuard } from "./Services/fornecedor.guard";
 import { FornecedorResolve } from "./Services/fornecedor.resolve";
 
 const FornecedorRouterConfig: Routes = [
@@ -17,14 +18,21 @@ const FornecedorRouterConfig: Routes = [
        { path: 'excluir/:id', component: ExcluirComponent,
        resolve: {
         fornecedor: FornecedorResolve
-      }
+      },
+         canActivate: [FornecedorGuard],
+         data: [{ claim: { name: 'Fornecedor', value: 'Excluir' }}]
       },
        { path: 'editar/:id', component: EditarComponent,
        resolve: {
             fornecedor: FornecedorResolve
-          }
+          },
+          canActivate: [FornecedorGuard],
+          data: [{ claim: { name: 'Fornecedor', value: 'Atualizar' }}]
        },
-       { path: 'adicionar-novo', component: NovoComponent },
+       { path: 'adicionar-novo', component: NovoComponent, 
+         canActivate: [FornecedorGuard],
+         data: [{ claim: { name: 'Fornecedor', value: 'Adicionar' }}]      
+       },
        { path: 'detalhes/:id', component: DetalhesComponent,
        resolve: {
         fornecedor: FornecedorResolve

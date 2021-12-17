@@ -11,6 +11,7 @@ import { FornecedorService } from '../Services/fornecedor.service';
 export class ExcluirComponent implements OnInit {
 
   fornecedor: Fornecedor=new Fornecedor();
+  errors:any=[];
 
   constructor(private route: ActivatedRoute,
               private toastr: ToastrService,
@@ -23,7 +24,7 @@ export class ExcluirComponent implements OnInit {
     this.fornecedorService.excluirFornecedor(this.fornecedor.id)
       .subscribe(
         evento => this.sucessoExclusao(evento),
-        error => this.falha()
+        error => this.falha(error)
       );
   }
 
@@ -36,7 +37,8 @@ if (toast){
 }
   }
 
-  falha(){
+  falha(fail:any){
+    this.errors = fail.error.errors;    
     this.toastr.error('Houve um erro no processamento!', 'Ops! :(');
   }
 

@@ -8,13 +8,13 @@ import { ListaComponent } from './lista/lista.component';
 import { FornecedorService } from './Services/fornecedor.service';
 import { FornecedorRoutingModule } from './fornecedor.route';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
 import { FornecedorAppComponent } from './fornecedor.app.component';
 import { NgBrazil } from 'ng-brazil';
 import { TextMaskModule } from 'angular2-text-mask';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { NgxMaskModule, IConfig } from 'ngx-mask'
 import { FornecedorResolve } from './Services/fornecedor.resolve';
+import { FornecedorGuard } from './Services/fornecedor.guard';
 
 @NgModule({
   declarations: [
@@ -30,7 +30,6 @@ import { FornecedorResolve } from './Services/fornecedor.resolve';
     FornecedorRoutingModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule,
     NgBrazil,
     TextMaskModule,
     NgxSpinnerModule,
@@ -38,7 +37,8 @@ import { FornecedorResolve } from './Services/fornecedor.resolve';
   ],
   providers: [
     FornecedorService,
-    FornecedorResolve
+    FornecedorResolve,
+    FornecedorGuard
   ]
 })
 export class FornecedorModule { }
