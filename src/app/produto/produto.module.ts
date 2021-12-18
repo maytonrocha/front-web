@@ -15,6 +15,7 @@ import { NgBrazil } from 'ng-brazil';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { NgxMaskModule } from 'ngx-mask';
 import { TextMaskModule } from 'angular2-text-mask';
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { TextMaskModule } from 'angular2-text-mask';
     NgBrazil,
     TextMaskModule,
     NgxSpinnerModule,
-    NgxMaskModule.forRoot()    
+    NgxMaskModule.forRoot(),
+    ImageCropperModule
   ],
   providers: [
     ProdutoGuard,

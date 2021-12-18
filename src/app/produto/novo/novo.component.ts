@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChildren } from '@angular/core';
 import { FormBuilder, FormControlName, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Dimensions, ImageCroppedEvent, ImageTransform, LoadedImage } from 'ngx-image-cropper';
 import { ToastrService } from 'ngx-toastr';
 import { fromEvent, merge, Observable } from 'rxjs';
 import { DisplayMessage, GenericValidator, ValidationMessages } from 'src/app/Utils/generic-form-validation';
@@ -14,6 +15,17 @@ import { ProdutoService } from '../Services/produto.service';
 export class NovoComponent implements OnInit, AfterViewInit {
 
   @ViewChildren(FormControlName, { read: ElementRef }) formInputElements: ElementRef[];
+
+  imageChangedEvent: any = '';
+  croppedImage: any = '';
+  canvasRotation=0;
+  rotation=0;
+  scale=1;
+  showCropper:boolean=false;
+  containWithAspectRation=false;
+  transform:ImageTransform={};
+  ImagemName: string;
+  ImageUrl:string;
 
   mudancasNaoSalvas:boolean;
   errors:any[]=[];
@@ -29,33 +41,33 @@ export class NovoComponent implements OnInit, AfterViewInit {
   constructor(private fb: FormBuilder,
               private produtoService:ProdutoService,
               private router:Router,
-              private toast:ToastrService) {  
-             
+              private toast:ToastrService) {
+
              this.validationMessages = {
                   fornecedorId:{
                     required: 'Escolha um fornecedor',
                   },
                   nome:{
-                    required: 'Informe o nome', 
-                    minlength: 'Mínimo de 2 carasteres',       
+                    required: 'Informe o nome',
+                    minlength: 'Mínimo de 2 carasteres',
                     maxlength: 'Máximo de 200 carasteres',
                   },
                   descricao:{
                     required: 'Informe a descricao',
-                    minlength: 'Mínimo de 2 carasteres',       
-                    maxlength: 'Máximo de 2000 carasteres',                    
+                    minlength: 'Mínimo de 2 carasteres',
+                    maxlength: 'Máximo de 2000 carasteres',
                   },
                   image:{
                     required: 'Informe a imagem',
                   },
                   valor:{
                     required: 'Informe o valor'
-                  }                 
+                  }
                 }
-            
+
                 this.genericValidator = new GenericValidator(this.validationMessages);
-              }  
-  
+              }
+
   ngOnInit(): void {
 
     this.produtoService.ObterFornecedores()
@@ -72,7 +84,7 @@ export class NovoComponent implements OnInit, AfterViewInit {
       ativo: [true]
     });
   }
-  
+
   ngAfterViewInit(): void {
     this.configurarElementosValidacao();
   }
@@ -129,4 +141,21 @@ export class NovoComponent implements OnInit, AfterViewInit {
     this.errors = fail.error.errors;
     this.toast.error('Ocorreu um erro!', 'Opa :(');
   }
+
+  fileChangeEvent(event: any): void {
+    this.imageChangedEvent = event;
+    this.ImagemName=event.currentTarget.files[0].name;
+}
+imageCropped(event: ImageCroppedEvent) {
+    this.croppedImage = event.base64;
+}
+imageLoaded() {
+    this.showCropper=true;
+}
+cropperReady(sourceImageDimensions: Dimensions) {
+    console.log('cropper Ready ' + sourceImageDimensions);
+}
+loadImageFailed() {
+    this.errors.push('O formato do arquivo ' + this.ImagemName+ ' não é aceito');
+}
 }

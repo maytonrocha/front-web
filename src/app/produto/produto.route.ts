@@ -13,8 +13,9 @@ const ProdutoRouteConfig: Routes = [
   {
     path: '', component: ProdutoAppComponent,
     children:[
-        { path: 'adicionar-novo', component: NovoComponent,    
+        { path: 'adicionar-novo', component: NovoComponent,
           canActivate: [ProdutoGuard],
+          canDeactivate: [ProdutoGuard],
           data: [{ claim: { name: 'Produto', value: 'Adicionar' }}]
         },
         { path: 'listar-todos', component: ListaComponent },
@@ -28,14 +29,14 @@ const ProdutoRouteConfig: Routes = [
         { path: 'detalhes/:id', component: DetalhesComponent,
            resolve: {
             produto: ProdutoResolve
-           } 
+           }
         },
         { path: 'editar/:id', component: EditarComponent,
           resolve: {
             produto: ProdutoResolve
           },
           canActivate: [ProdutoGuard],
-          data: [{ claim: { name: 'Produto', value: 'Atualizar' }}] 
+          data: [{ claim: { name: 'Produto', value: 'Atualizar' }}]
         }
     ]
   }
