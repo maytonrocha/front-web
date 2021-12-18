@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { environment } from 'src/environments/environment';
 import { Produto } from '../Models/produto';
 import { ProdutoService } from '../Services/produto.service';
 
@@ -11,11 +12,12 @@ import { ProdutoService } from '../Services/produto.service';
 export class ExcluirComponent implements OnInit {
 
   produto:Produto;
+  imagemUrl:string=environment.imagensUrl;
 
   constructor(private ProdutoService:ProdutoService,
               private route:ActivatedRoute,
               private router:Router,
-              private toast: ToastrService) { 
+              private toast: ToastrService) {
                 this.produto = this.route.snapshot.data['produto'];
               }
 

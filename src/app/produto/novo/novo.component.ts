@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Dimensions, ImageCroppedEvent, ImageTransform, LoadedImage } from 'ngx-image-cropper';
 import { ToastrService } from 'ngx-toastr';
 import { fromEvent, merge, Observable } from 'rxjs';
+import { CurrencyUtils } from 'src/app/Utils/currency-utils';
 import { DisplayMessage, GenericValidator, ValidationMessages } from 'src/app/Utils/generic-form-validation';
 import { Fornecedor, Produto } from '../Models/produto';
 import { ProdutoService } from '../Services/produto.service';
@@ -108,6 +109,10 @@ export class NovoComponent implements OnInit, AfterViewInit {
 
       this.produto = Object.assign({}, this.produto, this.produtoForm.value);
       this.formResult = JSON.stringify(this.produto);
+
+      this.produto.imagemUpload=this.croppedImage.split(',')[1];
+      this.produto.imagem=this.ImagemName;
+      this.produto.valor = CurrencyUtils.StringParaDecimal(this.produto.valor.toString());
 
       //this.produto.endereco.cep = StringUtils.somenteNumeros(this.fornecedor.endereco.cep);
       //this.produto.documento = StringUtils.somenteNumeros(this.fornecedor.documento);

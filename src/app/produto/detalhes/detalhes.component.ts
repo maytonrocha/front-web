@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { environment } from 'src/environments/environment';
 import { Produto } from '../Models/produto';
 import { ProdutoService } from '../Services/produto.service';
 
@@ -10,8 +11,9 @@ import { ProdutoService } from '../Services/produto.service';
 export class DetalhesComponent implements OnInit {
 
   produto:Produto;
+  imagemUrl:string=environment.imagensUrl;
 
-  constructor(private route:ActivatedRoute) { 
+  constructor(private route:ActivatedRoute) {
     this.produto = this.route.snapshot.data['produto'];
   }
 

@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { fromEvent, merge, Observable } from 'rxjs';
 import { DisplayMessage, GenericValidator, ValidationMessages } from 'src/app/Utils/generic-form-validation';
+import { environment } from 'src/environments/environment';
 import { Fornecedor, Produto } from '../Models/produto';
 import { ProdutoService } from '../Services/produto.service';
 
@@ -14,11 +15,12 @@ import { ProdutoService } from '../Services/produto.service';
 export class EditarComponent implements OnInit, AfterViewInit {
 
   @ViewChildren(FormControlName, { read: ElementRef }) formInputElements: ElementRef[];
-  
+
   produto:Produto;
   fornecedores:Fornecedor[];
   errors:any[];
   produtoForm: FormGroup;
+  imagemUrl:string=environment.imagensUrl;
 
   validationMessages: ValidationMessages;
   genericValidator: GenericValidator;
@@ -33,8 +35,8 @@ export class EditarComponent implements OnInit, AfterViewInit {
               private produtoService:ProdutoService,
               private router:Router,
               private route:ActivatedRoute,
-              private toast:ToastrService) { 
-                
+              private toast:ToastrService) {
+
                 this.validationMessages = {
                   fornecedorId: {
                     required: 'Escolha um fornecedor',
@@ -56,7 +58,7 @@ export class EditarComponent implements OnInit, AfterViewInit {
                     required: 'Informe o Valor',
                   }
                 };
-            
+
                 this.genericValidator = new GenericValidator(this.validationMessages);
                 this.produto = this.route.snapshot.data['produto'];
               }
@@ -106,7 +108,7 @@ export class EditarComponent implements OnInit, AfterViewInit {
   editarProduto(){
     if (this.produtoForm.dirty && this.produtoForm.valid) {
       this.produto = Object.assign({}, this.produto, this.produtoForm.value);
-     
+
      this.produtoService.atualizarProduto(this.produto)
         .subscribe(
           sucesso => { this.processarSucesso(sucesso) },
