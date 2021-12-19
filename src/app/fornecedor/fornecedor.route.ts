@@ -29,10 +29,10 @@ const FornecedorRouterConfig: Routes = [
           canActivate: [FornecedorGuard],
           data: [{ claim: { name: 'Fornecedor', value: 'Atualizar' }}]
        },
-       { path: 'adicionar-novo', component: NovoComponent, 
+       { path: 'adicionar-novo', component: NovoComponent,
          canActivate: [FornecedorGuard],
          canDeactivate: [FornecedorGuard],
-         data: [{ claim: { name: 'Fornecedor', value: 'Adicionar' }}]      
+         data: [{ claim: { name: 'Fornecedor', value: 'Adicionar' }}]
        },
        { path: 'detalhes/:id', component: DetalhesComponent,
        resolve: {

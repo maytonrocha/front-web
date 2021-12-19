@@ -5,7 +5,7 @@ import { catchError, Observable, throwError } from "rxjs";
 import { LocalStorageUtils } from "../Utils/LocalStorageUtils";
 
 @Injectable()
-export class ErrorInterceptor implements HttpInterceptor{ 
+export class ErrorInterceptor implements HttpInterceptor{
 
     localStorageUtils = new LocalStorageUtils();
 
@@ -17,7 +17,7 @@ export class ErrorInterceptor implements HttpInterceptor{
            {
                if (error.status === 401){
                     this.localStorageUtils.limparDadosLocaisUsuario();
-                    this.route.navigate(['/conta/login'])
+                    this.route.navigate(['/conta/login'], { queryParams: { returnUrl: this.route.url }})
                }
                if (error.status === 403){
                    this.route.navigate(['/acesso-negado']);
@@ -25,5 +25,5 @@ export class ErrorInterceptor implements HttpInterceptor{
            }
            return throwError(error);
         }));
-    }    
+    }
 }

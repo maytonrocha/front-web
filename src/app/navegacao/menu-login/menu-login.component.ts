@@ -1,5 +1,6 @@
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
+import { FormBaseComponent } from "src/app/base-components/form-base.component";
 import { LocalStorageUtils } from "src/app/Utils/LocalStorageUtils";
 
 @Component({
@@ -12,7 +13,7 @@ export class MenuLoginComponent {
     email: string = "";
     localStorageUser = new LocalStorageUtils();
 
-    constructor(private router:Router){  }
+    constructor(private router:Router){ }
 
     usuarioLogado():boolean{
         this.token = this.localStorageUser.obterTokenUsuario();
@@ -21,7 +22,7 @@ export class MenuLoginComponent {
         if (this.user)
            this.email = this.user.email;
 
-        return this.token != null;  
+        return this.token != null;
     }
 
     logout(){

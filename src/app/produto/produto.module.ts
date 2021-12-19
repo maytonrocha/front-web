@@ -16,6 +16,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { NgxMaskModule } from 'ngx-mask';
 import { TextMaskModule } from 'angular2-text-mask';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { ListaProdutos } from '../fornecedor/produtos/lista-produtos.component';
 
 @NgModule({
   declarations: [

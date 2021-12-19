@@ -15,6 +15,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { NgxMaskModule, IConfig } from 'ngx-mask'
 import { FornecedorResolve } from './Services/fornecedor.resolve';
 import { FornecedorGuard } from './Services/fornecedor.guard';
+import { ListaProdutos } from './produtos/lista-produtos.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { FornecedorGuard } from './Services/fornecedor.guard';
     NovoComponent,
     ExcluirComponent,
     EditarComponent,
-    ListaComponent
+    ListaComponent,
+    ListaProdutos
   ],
   imports: [
     CommonModule,

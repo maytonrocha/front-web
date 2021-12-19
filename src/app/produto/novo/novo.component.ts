@@ -1,19 +1,20 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChildren } from '@angular/core';
 import { FormBuilder, FormControlName, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Dimensions, ImageCroppedEvent, ImageTransform, LoadedImage } from 'ngx-image-cropper';
 import { ToastrService } from 'ngx-toastr';
 import { fromEvent, merge, Observable } from 'rxjs';
 import { CurrencyUtils } from 'src/app/Utils/currency-utils';
-import { DisplayMessage, GenericValidator, ValidationMessages } from 'src/app/Utils/generic-form-validation';
-import { Fornecedor, Produto } from '../Models/produto';
+//import { DisplayMessage, GenericValidator, ValidationMessages } from 'src/app/Utils/generic-form-validation';
+//import { Fornecedor, Produto } from '../Models/produto';
+import { ProdutoFormBase } from '../Services/produto-form.base.component';
 import { ProdutoService } from '../Services/produto.service';
 
 @Component({
   selector: 'app-novo',
   templateUrl: './novo.component.html'
 })
-export class NovoComponent implements OnInit, AfterViewInit {
+export class NovoComponent extends ProdutoFormBase implements OnInit, AfterViewInit {
 
   @ViewChildren(FormControlName, { read: ElementRef }) formInputElements: ElementRef[];
 
@@ -28,23 +29,24 @@ export class NovoComponent implements OnInit, AfterViewInit {
   ImagemName: string;
   ImageUrl:string;
 
-  mudancasNaoSalvas:boolean;
+  //mudancasNaoSalvas:boolean;
   errors:any[]=[];
   //MASKS = utilsBr.MASKS;
-  produto: Produto;
-  fornecedores: Fornecedor[];
-  formResult: string = '';
-  produtoForm: FormGroup;
-  validationMessages: ValidationMessages;
-  genericValidator: GenericValidator;
-  displayMessage: DisplayMessage = {};
+  //produto: Produto;
+  //fornecedores: Fornecedor[];
+  //formResult: string = '';
+  //produtoForm: FormGroup;
+  //validationMessages: ValidationMessages;
+  //genericValidator: GenericValidator;
+  //displayMessage: DisplayMessage = {};
 
   constructor(private fb: FormBuilder,
               private produtoService:ProdutoService,
               private router:Router,
               private toast:ToastrService) {
+                super();
 
-             this.validationMessages = {
+             /*this.validationMessages = {
                   fornecedorId:{
                     required: 'Escolha um fornecedor',
                   },
@@ -66,7 +68,9 @@ export class NovoComponent implements OnInit, AfterViewInit {
                   }
                 }
 
-                this.genericValidator = new GenericValidator(this.validationMessages);
+                this.genericValidator = new GenericValidator(this.validationMessages);*/
+
+                super.configurarMensagensValidacaoBase(super.validationMessages);
               }
 
   ngOnInit(): void {
@@ -87,10 +91,11 @@ export class NovoComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.configurarElementosValidacao();
+    super.configurarValidacaoFormulariBase(this.formInputElements, this.produtoForm);
+    //this.configurarElementosValidacao();
   }
 
-  configurarElementosValidacao() {
+  /*configurarElementosValidacao() {
     let controlBlurs: Observable<any>[] = this.formInputElements
       .map((formControl: ElementRef) => fromEvent(formControl.nativeElement, 'blur'));
 
@@ -102,7 +107,7 @@ export class NovoComponent implements OnInit, AfterViewInit {
   validarFormulario() {
     this.displayMessage = this.genericValidator.processarMensagens(this.produtoForm);
     this.mudancasNaoSalvas = true;
-  }
+  }*/
 
   adicionarProduto() {
     if (this.produtoForm.dirty && this.produtoForm.valid) {

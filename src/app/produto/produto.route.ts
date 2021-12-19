@@ -36,6 +36,7 @@ const ProdutoRouteConfig: Routes = [
             produto: ProdutoResolve
           },
           canActivate: [ProdutoGuard],
+          canDeactivate: [ProdutoGuard],
           data: [{ claim: { name: 'Produto', value: 'Atualizar' }}]
         }
     ]

@@ -1,15 +1,12 @@
 import { Injectable } from "@angular/core";
-import { ActivatedRouteSnapshot, CanActivate, CanDeactivate, Router, RouterStateSnapshot, UrlTree } from "@angular/router";
-import { Observable } from "rxjs";
-import { LocalStorageUtils } from "src/app/Utils/LocalStorageUtils";
+import { ActivatedRouteSnapshot, CanActivate, CanDeactivate, Router } from "@angular/router";
+import { BaseGuard } from "src/app/Services/base.guard";
 import { NovoComponent } from "../novo/novo.component";
 
 @Injectable()
-export class FornecedorGuard implements CanActivate, CanDeactivate<NovoComponent> {
+export class FornecedorGuard extends BaseGuard implements CanActivate, CanDeactivate<NovoComponent> {
 
-    localStorageUtils = new LocalStorageUtils();
-
-    constructor(private routerNav:Router){}
+    constructor(protected routerNav:Router){ super(routerNav); }
     canDeactivate(component: NovoComponent) {
         if (component.mudancasNaoSalvas){
             return window.confirm("Tem certeza que deseja abandonar o preenchimento do formulário?")
@@ -18,40 +15,7 @@ export class FornecedorGuard implements CanActivate, CanDeactivate<NovoComponent
         return true;
     }
 
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        
-        if (!this.localStorageUtils.obterTokenUsuario()){
-            this.routerNav.navigate(['/conta/login']);
-        }
-
-        let user = this.localStorageUtils.obterUsuario();
-        let data:any = route.data[0];
-
-        if (data !== undefined){
-            let claim = route.data[0]['claim'];
-
-            if (claim) {
-                if (!user.claims){
-                    this.navegateToNegado();
-                }
-
-                let claimsUser = user.claims.find(x => x.type === claim.name)
-
-                if (!claimsUser){
-                    this.navegateToNegado();
-                }
-
-                let valoresClaims = claimsUser.value as string;
-
-                if (!valoresClaims.includes(claim.value)){
-                    this.navegateToNegado();
-                }
-            }
-        }
-        return true;
-    }
-
-    navegateToNegado(){
-        this.routerNav.navigate(['/acesso-negado']);
+    canActivate(route: ActivatedRouteSnapshot) {
+        return super.validarClaims(route);
     }
 }

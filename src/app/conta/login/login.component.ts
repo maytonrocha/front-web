@@ -4,29 +4,33 @@ import { DisplayMessage, GenericValidator, ValidationMessages } from 'src/app/Ut
 import { Usuario } from '../Models/usuario';
 import { ContaService } from '../Services/conta.service';
 import { fromEvent, merge, Observable } from 'rxjs';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { CustomValidators } from '@narik/custom-validators';
+import { FormBaseComponent } from 'src/app/base-components/form-base.component';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html'
 })
-export class LoginComponent implements OnInit, AfterViewInit {
+export class LoginComponent extends FormBaseComponent implements OnInit, AfterViewInit {
 
   @ViewChildren(FormControlName, { read: ElementRef }) formImputElement: ElementRef[];
 
   errors: any = [];
-  validationMessages: ValidationMessages;
+  returnUrl:string;
+  //validationMessages: ValidationMessages;
   genericValidation: GenericValidator;
-  displayMessage: DisplayMessage = {};
+  //displayMessage: DisplayMessage = {};
   loginForm: FormGroup;
   usuario: Usuario;
 
   constructor(private fb:FormBuilder,
               private contaService:ContaService,
               private route: Router,
-              private toastr: ToastrService) {
+              private toastr: ToastrService,
+              private router:ActivatedRoute) {
+                super();
 
                 this.validationMessages = {
                   email: {
@@ -39,7 +43,9 @@ export class LoginComponent implements OnInit, AfterViewInit {
                   }
                 };
 
-                this.genericValidation = new GenericValidator(this.validationMessages);
+                super.configurarMensagensValidacaoBase(this.validationMessages);
+                //this.genericValidation = new GenericValidator(this.validationMessages);
+                this.returnUrl=this.router.snapshot.queryParams['returnUrl'];
   }
 
   ngOnInit(): void {
@@ -51,12 +57,14 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-        let controlBlurs: Observable<any>[] = this.formImputElement
+        /*let controlBlurs: Observable<any>[] = this.formImputElement
         .map((formControl: ElementRef) => fromEvent(formControl.nativeElement, 'blur'));
 
         merge(...controlBlurs).subscribe(()=> {
               this.displayMessage = this.genericValidation.processarMensagens(this.loginForm);
-        })
+        })*/
+
+        super.configurarValidacaoFormulariBase(this.formImputElement, this.loginForm);
   }
 
   login(){
@@ -81,6 +89,8 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
      if (toastr){
        toastr.onHidden.subscribe(()=>{
+         this.returnUrl ?
+         this.route.navigate([this.returnUrl]) :
         this.route.navigate(['/home']);
        });
      }

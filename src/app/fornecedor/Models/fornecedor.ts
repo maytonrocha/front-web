@@ -1,3 +1,4 @@
+import { Produto } from "src/app/produto/Models/produto";
 import { Endereco } from "./endereco";
 
 export class Fornecedor{
@@ -7,4 +8,5 @@ export class Fornecedor{
   tipoFornecedor:number;
   ativo:boolean;
   endereco:Endereco;
+  produtos:Produto[]
 }
